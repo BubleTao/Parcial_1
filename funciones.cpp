@@ -49,3 +49,33 @@ void imprimirMatriz(int** matriz, int dimension) {
         cout << endl;
     }
 }
+// Función para rotar una matriz M en sentido horario un número específico de veces
+void rotarMatriz(int** matriz, int dimension, int veces) {
+    for (int k = 0; k < veces; ++k) {
+        // Crear una matriz auxiliar para almacenar la matriz rotada
+        int** matrizRotada = new int*[dimension];
+        for (int i = 0; i < dimension; ++i) {
+            matrizRotada[i] = new int[dimension];
+        }
+
+        // Copiar los elementos de la matriz original en la matriz rotada
+        for (int i = 0; i < dimension; ++i) {
+            for (int j = 0; j < dimension; ++j) {
+                matrizRotada[j][dimension - 1 - i] = matriz[i][j];
+            }
+        }
+
+        // Copiar la matriz rotada de vuelta a la matriz original
+        for (int i = 0; i < dimension; ++i) {
+            for (int j = 0; j < dimension; ++j) {
+                matriz[i][j] = matrizRotada[i][j];
+            }
+        }
+
+        // Liberar la memoria de la matriz rotada
+        for (int i = 0; i < dimension; ++i) {
+            delete[] matrizRotada[i];
+        }
+        delete[] matrizRotada;
+    }
+}
