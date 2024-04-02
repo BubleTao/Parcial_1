@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    int dimension = 5; // Dimensiones de la matriz (impar)
+    int dimension = 3; // Dimensiones de la matriz (impar)
 
     // Crear la matriz
     int** matriz = crearMatriz(dimension);
@@ -14,6 +14,15 @@ int main() {
         // Imprimir la matriz original
         cout << "Matriz original:" << endl;
         imprimirMatriz(matriz, dimension);
+
+        // Probar la función validarReglaK con una posición específica y una regla K
+        int fila = 2; // Fila de la posición a verificar
+        int columna = 2; // Columna de la posición a verificar
+        int A = 9, B = 5, C = 4, D = 3; // Valores de la regla K
+        bool resultado = validarReglaK(matriz, fila, columna, dimension, A, B, C, D);
+
+        // Imprimir el resultado de la validación
+        cout << "La regla K se cumple en la posición (" << fila << ", " << columna << "): " << (resultado ? "Verdadero" : "Falso") << endl;
 
         // Rotar la matriz un numero específico de veces
         int opcion;
@@ -32,7 +41,7 @@ int main() {
             rotarMatriz(matriz, dimension, 3);
             break;
         default:
-            cout << "Opción inválida. La matriz no sera rotada." << endl;
+            cout << "Opcion invalida. La matriz no sera rotada." << endl;
         }
 
         // Imprimir la matriz despues de la rotación

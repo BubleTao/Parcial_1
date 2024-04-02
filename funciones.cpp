@@ -7,7 +7,7 @@ using namespace std;
 int** crearMatriz(int dimension) {
     // Verificar que la dimensión sea válida
     if (dimension % 2 == 0) {
-        std::cerr << "Error: La dimensión de la matriz debe ser un número impar." << std::endl;
+        cerr << "Error: La dimensión de la matriz debe ser un número impar." << endl;
         return nullptr;
     }
 
@@ -78,4 +78,43 @@ void rotarMatriz(int** matriz, int dimension, int veces) {
         }
         delete[] matrizRotada;
     }
+}
+// Función para copiar una matriz en otra
+void copiarMatriz(int** matrizDestino, int** matrizOrigen, int dimension) {
+    for (int i = 0; i < dimension; ++i) {
+        for (int j = 0; j < dimension; ++j) {
+            matrizDestino[i][j] = matrizOrigen[i][j];
+        }
+    }
+}
+
+// Función para validar que las dimensiones de una matriz M sean correctas
+bool validarDimensiones(int** matriz, int dimension) {
+    for (int i = 0; i < dimension; ++i) {
+        if (matriz[i] == nullptr || matriz[i][i] == 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Función para validar la regla K
+bool validarReglaK(int** matriz, int fila, int columna, int dimension, int A, int B, int C, int D) {
+    // Verificar que las coordenadas estén dentro de los límites de la matriz
+    if (fila < 0 || fila >= dimension || columna < 0 || columna >= dimension) {
+        return false;
+    }
+
+    // Obtener los valores de las celdas según las coordenadas
+    int valorActual = matriz[fila][columna];
+    int valorB = (fila > 0) ? matriz[fila - 1][columna] : -1; // Valor B: celda arriba
+    int valorC = (columna < dimension - 1) ? matriz[fila][columna + 1] : -1; // Valor C: celda derecha
+    int valorD = (fila < dimension - 1) ? matriz[fila + 1][columna] : -1; // Valor D: celda abajo
+
+    // Verificar si se cumplen las condiciones de la regla K
+    if (valorActual == A && valorB == B && valorC == C && valorD == D) {
+        return true;
+    }
+
+    return false;
 }
