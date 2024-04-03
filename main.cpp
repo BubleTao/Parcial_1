@@ -20,9 +20,11 @@ int main() {
         cin >> llave[i];
     }
     longitud--;
+    int *tamanosmatrices= new int [longitud];
     tamano = max_val(X, Y);
     int*** candado = new int**[longitud];
     candado[1] = crearMatriz(tamano);
+    tamanosmatrices[1] = tamano;
     cout << endl;
     imprimirMatriz(candado[1], tamano);
     cout << endl;
@@ -31,22 +33,37 @@ int main() {
     while (contador + 1 < longitud) {
         contador++;
         candado[contador + 1] = siguienteanillo(tamano, candado[contador][X][Y], &X, &Y, llave[contador - 1], &tamanoanillo);
+        tamanosmatrices[contador+1] = tamanoanillo;
         imprimirMatriz(candado[contador + 1], tamanoanillo);
         tamano = tamanoanillo;
         cout << endl;
     }
-
-    // Liberar la memoria de las matrices creadas
-    liberarMatriz(candado[1], tamano);
-    for (int i = 1; i < longitud; ++i) {
-        liberarMatriz(candado[i + 1], tamanoanillo);
+    cout << endl;
+    cout << "la cerradura correspondiente a la llave K es; "<< endl;
+    for (int i = 1; i <= longitud; i++){
+        cout << tamanosmatrices[i];
+        cout <<"X";
+        cout <<tamanosmatrices[i];
+        cout <<", ";
     }
+    cout << endl;
+    cout << endl;
+    // Liberar la memoria de las matrices creadas
+    liberarMatriz(candado[1], tamanosmatrices[1]);
+    for (int i = 1; i < longitud; ++i) {
+        liberarMatriz(candado[i + 1], tamanosmatrices[i+1]);
+    }
+
+    // librerar el arreglo de tamaños de matrices
+    delete[] tamanosmatrices;
 
     // Liberar la memoria del arreglo de punteros a matrices
     delete[] candado;
 
     // Liberar la memoria del arreglo de llave
     delete[] llave;
+
+    cout << "se ha liberado la memoria correctamente" << endl;
 
     return 0;
 }
