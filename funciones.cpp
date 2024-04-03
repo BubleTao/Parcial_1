@@ -44,7 +44,7 @@ void liberarMatriz(int** matriz, int dimension) {
 void imprimirMatriz(int** matriz, int dimension) {
     for (int i = 0; i < dimension; ++i) {
         for (int j = 0; j < dimension; ++j) {
-            cout << matriz[i][j] << " ";
+            cout << "|" <<matriz[i][j] << "| ";
         }
         cout << endl;
     }
@@ -79,42 +79,49 @@ void rotarMatriz(int** matriz, int dimension, int veces) {
         delete[] matrizRotada;
     }
 }
-// Función para copiar una matriz en otra
-void copiarMatriz(int** matrizDestino, int** matrizOrigen, int dimension) {
-    for (int i = 0; i < dimension; ++i) {
-        for (int j = 0; j < dimension; ++j) {
-            matrizDestino[i][j] = matrizOrigen[i][j];
+
+
+
+int max_val(int a, int b){
+    int dimension = 0;
+    if (a<b){
+        dimension = b+1;
+    }else{
+        dimension = a+1;
+    }
+    if (dimension % 2 == 0){
+        dimension++;
+    }
+
+    return dimension;
+}
+
+int** siguienteanillo(int predimension, int valor, int* x, int* y, int condicion,int* tamano){
+    int** candidato;
+    while(1){
+        predimension=predimension+2;
+        *y=*y+1;
+        *x=*x+1;
+        *tamano = predimension;
+        candidato = crearMatriz(predimension);
+        for (int i = 0; i<3; i++ ){
+            if (condicion<0){
+                if (candidato[*x][*y]>valor){
+                    return candidato;
+                }
+                else{
+                    rotarMatriz(candidato,predimension,1);
+                }
+
+            }else {
+                if (candidato[*x][*y]<valor){
+                    return candidato;
+                }
+                else{
+                    rotarMatriz(candidato,predimension,1);
+                }
+            }
         }
     }
 }
 
-// Función para validar que las dimensiones de una matriz M sean correctas
-bool validarDimensiones(int** matriz, int dimension) {
-    for (int i = 0; i < dimension; ++i) {
-        if (matriz[i] == nullptr || matriz[i][i] == 0) {
-            return false;
-        }
-    }
-    return true;
-}
-
-// Función para validar la regla K
-bool validarReglaK(int** matriz, int fila, int columna, int dimension, int A, int B, int C, int D) {
-    // Verificar que las coordenadas estén dentro de los límites de la matriz
-    if (fila < 0 || fila >= dimension || columna < 0 || columna >= dimension) {
-        return false;
-    }
-
-    // Obtener los valores de las celdas según las coordenadas
-    int valorActual = matriz[fila][columna];
-    int valorB = (fila > 0) ? matriz[fila - 1][columna] : -1; // Valor B: celda arriba
-    int valorC = (columna < dimension - 1) ? matriz[fila][columna + 1] : -1; // Valor C: celda derecha
-    int valorD = (fila < dimension - 1) ? matriz[fila + 1][columna] : -1; // Valor D: celda abajo
-
-    // Verificar si se cumplen las condiciones de la regla K
-    if (valorActual == A && valorB == B && valorC == C && valorD == D) {
-        return true;
-    }
-
-    return false;
-}

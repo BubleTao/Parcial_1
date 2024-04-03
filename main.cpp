@@ -4,53 +4,49 @@
 using namespace std;
 
 int main() {
-    int dimension = 3; // Dimensiones de la matriz (impar)
-
-    // Crear la matriz
-    int** matriz = crearMatriz(dimension);
-
-    // Verificar si la matriz se creó correctamente
-    if (matriz != nullptr) {
-        // Imprimir la matriz original
-        cout << "Matriz original:" << endl;
-        imprimirMatriz(matriz, dimension);
-
-        // Probar la función validarReglaK con una posición específica y una regla K
-        int fila = 2; // Fila de la posición a verificar
-        int columna = 2; // Columna de la posición a verificar
-        int A = 9, B = 5, C = 4, D = 3; // Valores de la regla K
-        bool resultado = validarReglaK(matriz, fila, columna, dimension, A, B, C, D);
-
-        // Imprimir el resultado de la validación
-        cout << "La regla K se cumple en la posición (" << fila << ", " << columna << "): " << (resultado ? "Verdadero" : "Falso") << endl;
-
-        // Rotar la matriz un numero específico de veces
-        int opcion;
-        cout << "Ingrese el numero de veces que desea rotar la matriz (1, 2 o 3): ";
-        cin >> opcion;
-
-        // Verificar la opción ingresada y rotar la matriz
-        switch(opcion) {
-        case 1:
-            rotarMatriz(matriz, dimension, 1);
-            break;
-        case 2:
-            rotarMatriz(matriz, dimension, 2);
-            break;
-        case 3:
-            rotarMatriz(matriz, dimension, 3);
-            break;
-        default:
-            cout << "Opcion invalida. La matriz no sera rotada." << endl;
-        }
-
-        // Imprimir la matriz despues de la rotación
-        cout << "Matriz despues de rotar " << opcion << " veces:" << endl;
-        imprimirMatriz(matriz, dimension);
-
-        // Liberar la memoria de la matriz
-        liberarMatriz(matriz, dimension);
+    int X;
+    int Y;
+    int longitud;
+    int tamano;
+    cout << "Ingrese la longitud de K: " << endl;
+    cin >> longitud;
+    int* llave = new int[longitud - 2];
+    cout << "Ingrese el valor 1 de K: " << endl;
+    cin >> X;
+    cout << "Ingrese el valor 2 de K: " << endl;
+    cin >> Y;
+    for (int i = 0; i < longitud - 2; i++) {
+        cout << "Ingrese el valor " << i + 3 << " de K" << endl;
+        cin >> llave[i];
     }
+    longitud--;
+    tamano = max_val(X, Y);
+    int*** candado = new int**[longitud];
+    candado[1] = crearMatriz(tamano);
+    cout << endl;
+    imprimirMatriz(candado[1], tamano);
+    cout << endl;
+    int tamanoanillo;
+    int contador = 0;
+    while (contador + 1 < longitud) {
+        contador++;
+        candado[contador + 1] = siguienteanillo(tamano, candado[contador][X][Y], &X, &Y, llave[contador - 1], &tamanoanillo);
+        imprimirMatriz(candado[contador + 1], tamanoanillo);
+        tamano = tamanoanillo;
+        cout << endl;
+    }
+
+    // Liberar la memoria de las matrices creadas
+    liberarMatriz(candado[1], tamano);
+    for (int i = 1; i < longitud; ++i) {
+        liberarMatriz(candado[i + 1], tamanoanillo);
+    }
+
+    // Liberar la memoria del arreglo de punteros a matrices
+    delete[] candado;
+
+    // Liberar la memoria del arreglo de llave
+    delete[] llave;
 
     return 0;
 }
