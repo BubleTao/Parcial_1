@@ -4,11 +4,8 @@
 using namespace std;
 
 int main() {
-    int X;
-    int Y;
-    int longitud;
-    int tamano;
-    cout << "Ingrese la longitud de K: " << endl;
+    int X, Y, longitud, tamano;
+    cout << "Ingrese la longitud de K: ";
     cin >> longitud;
     int* llave = new int[longitud - 2];
     cout << "Ingrese el valor 1 de K: " << endl;
